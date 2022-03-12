@@ -179,6 +179,7 @@ class _SignuppageState extends State<Signuppage> {
                           borderRadius: BorderRadius.circular(20)
                       )
                   ),
+
                   child:  Text("Signup"),
                   onPressed: (){
                   },
