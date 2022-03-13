@@ -3,6 +3,7 @@ import 'login_page.dart';
 import 'signup_page.dart';
 import 'main_menu.dart';
 import 'splash.dart';
+import 'home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       ),
       title: "LRM",
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: HomePage(),
     );
   }
 

@@ -20,16 +20,13 @@ class _MainMenuPageState extends State<MainMenuPage> {
             child: Stack(
               children: [
                 Positioned(
-                  top:0,
-                  right: 10,
                   child: Column(
                     children: [
                       Opacity(
                         opacity: 0.3,
-
                         child: Container(
-                          width: 400,
-                          height: 200,
+                          width: 360,
+                          height: 298,
                           decoration: BoxDecoration(
                             borderRadius : BorderRadius.circular(30),
                             color : Color(0xFFF5FEFD),
