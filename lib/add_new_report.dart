@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -11,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _reports = <String>['Lab Report', 'Blood pressure', 'Sugar',];
+  var dropdownvalue = 'lab Report';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,48 +58,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  Positioned(
-                    top:170,
-                    right:80,
-                    child: Container(
-                      width: 200,
-                      height: 70,
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child:  ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF16B8AE),
-                                padding: EdgeInsets.all(15),
-                                minimumSize: Size(200,60),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(0),
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(30),
-                                  ),
-                                ),
-                              ),
-                              child:  Text("Add New Report",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onPressed: (){
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
 
                   Positioned(
-                    top:250,
+                    top:130,
                     right:80,
                     child: Container(
                       width: 200,
@@ -107,15 +68,45 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         borderRadius : BorderRadius.only(
                           topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
+                          topRight: Radius.circular(0),
                           bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
+                          bottomRight: Radius.circular(30),
                         ),
                         color : Color(0xFF16B8AE),
+                      ),
+                      child:Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Add New Report",
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                       ),
                   ),
                   ),
 
+                  Positioned(
+                   child: DropdownButton<String>(
+                     onChanged: (String? newValue){
+                       setState(() {
+                         dropdownvalue = newValue!;
+                       });
+                     },
+                     value:dropdownvalue ,
+                     items: _reports.map<DropdownMenuItem<String>>(
+                         (String value)
+                             {
+                               return DropdownMenuItem<String>(
+                                 value: value,
+                                 child: Text(value),
+                               );
+                             },
+                     ).toList(),
+                  ),
+                  ),
 
                   Positioned(
                     top:90,
