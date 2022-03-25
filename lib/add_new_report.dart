@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -196,6 +198,57 @@ class _HomePageState extends State<HomePage> {
                   ),
 
 
+                  Positioned(
+                    top: 350,
+                   left: 65,
+                   child: ElevatedButton.icon(
+                     icon: Icon(Icons.add_a_photo,color: Colors.black),
+                     label: Text("Add Report Using camera",
+                       style: TextStyle(
+                           fontSize: 15,
+                           fontWeight: FontWeight.normal,
+                           color: Colors.black
+                       ),
+                     ),
+                     style: ElevatedButton.styleFrom(
+                         primary: Color(0xFF16B8AE),
+                         padding: EdgeInsets.all(15),
+                         minimumSize: Size(170,60),
+                         shape: RoundedRectangleBorder(
+                             borderRadius: BorderRadius.circular(20)
+                         )
+                     ),
+                     onPressed: (){
+                     },
+                   ),
+                  ),
+
+                  Positioned(
+                    top: 440,
+                    left: 65,
+                    width:230,
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.post_add,color: Colors.black,),
+                      label: Text("Add Report Manually",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black
+                        ),
+                      ),
+
+                      style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF16B8AE),
+                          padding: EdgeInsets.all(15),
+                          minimumSize: Size(170,60),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
+                          )
+                      ),
+                      onPressed: (){
+                      },
+                    ),
+                  ),
              ],
              ),
           ),
