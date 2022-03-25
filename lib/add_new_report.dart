@@ -9,8 +9,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _reports = <String>['Lab Report', 'Blood pressure', 'Sugar',];
-  var dropdownvalue = 'lab Report';
+  var valueChoosen;
+  var listItem = ["Lab Report", "Blood pressure", "Sugar",];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -88,25 +89,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ),
 
-                  Positioned(
-                   child: DropdownButton<String>(
-                     onChanged: (String? newValue){
-                       setState(() {
-                         dropdownvalue = newValue!;
-                       });
-                     },
-                     value:dropdownvalue ,
-                     items: _reports.map<DropdownMenuItem<String>>(
-                         (String value)
-                             {
-                               return DropdownMenuItem<String>(
-                                 value: value,
-                                 child: Text(value),
-                               );
-                             },
-                     ).toList(),
-                  ),
-                  ),
 
                   Positioned(
                     top:90,
@@ -191,6 +173,29 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+
+
+                  Positioned(
+                    top: 200,
+                    left: 90,
+                    child:DropdownButton(
+                      hint: Text("Select Report"),
+                      value: valueChoosen,
+                      onChanged: (newValue){
+                        setState(() {
+                          valueChoosen = newValue;
+                        });
+                      },
+                      items: listItem.map((valueitem){
+                        return DropdownMenuItem(
+                          value: valueitem,
+                          child: Text(valueitem),
+                        );
+                      }).toList()
+                    ) ,
+                  ),
+
+
              ],
              ),
           ),
