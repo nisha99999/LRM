@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'main_menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -145,23 +146,27 @@ class _HomePageState extends State<HomePage> {
                   Positioned(
                     top:90,
                     left: 50,
-                    child:  Container(
-                      alignment: Alignment.center,
-                      child:  Text(
-                        "Home",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
+                    height: 45,
+                    width:100,
+                    child: GestureDetector(
+                      child: Text("Home",style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,)),
+                      onTap: (){
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context)=>
+                                  MainMenuPage(),
+                            )
+                        );
+                      },
+                    )
                   ),
 
-
                   Positioned(
-                    top:65,
-                   left: 10,
+                    top:70,
+                    left: 10,
                     child:Container(
                       width: 50,
                       height: 65,
@@ -175,6 +180,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+
+
 
 
                   Positioned(
@@ -249,6 +256,11 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+
+
+
+
+
              ],
              ),
           ),

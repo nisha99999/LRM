@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'add_new_report.dart';
 
 class MainMenuPage extends StatefulWidget {
   const MainMenuPage({Key? key}) : super(key: key);
@@ -87,6 +88,13 @@ class _MainMenuPageState extends State<MainMenuPage> {
                             ),
                           ),
                           onPressed: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context)=>
+                                    HomePage(),
+                              ),
+                            );
+
                           },
                         ),
                       ),
