@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'main_menu.dart';
+import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
 
 class Signuppage extends StatefulWidget {
   const Signuppage({Key? key}) : super(key: key);
@@ -9,8 +13,50 @@ class Signuppage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<Signuppage> {
+
+  final username_Controller = TextEditingController();
+  final email_Controller = TextEditingController();
+  final password_Controller = TextEditingController();
+  final confirm_password_Controller = TextEditingController();
+  final age_Controller = TextEditingController();
+
+  void _handleGenderChange(String? value) {
+    setState(() {
+      _genderRadioBtnVal = value;
+    });
+  }
+  void check_signiup() async {
+    http.Response response = await http.post(
+      Uri.parse('http://192.168.0.113/LRM/api/user/insertuser'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "user_name": username_Controller.text,
+        "gender": _genderRadioBtnVal.toString(),
+        "email": email_Controller.text,
+        "age": age_Controller.text,
+        "user_passwd": password_Controller.text
+      }),
+    );
+    if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            // Retrieve the text that the user has entered by using the
+            // TextEditingController.
+            content: Text("ok"),
+          );
+        },
+      );
+    }
+  }
+
+
+
   bool _obscureText=true;
-  int _value=1;
+  String? _genderRadioBtnVal="M";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -66,6 +112,7 @@ class _SignuppageState extends State<Signuppage> {
           child: Column(
             children: [
               TextFormField(
+                controller: username_Controller,
                 decoration:InputDecoration(
                   hintText: "Enter UserName",
                   labelText: "UserName",
@@ -80,6 +127,7 @@ class _SignuppageState extends State<Signuppage> {
               ),
               SizedBox(height:10.0,),
               TextFormField(
+                controller: email_Controller,
                 decoration:InputDecoration(
                   hintText: "Enter Your Email",
                   labelText: "Email",
@@ -95,6 +143,7 @@ class _SignuppageState extends State<Signuppage> {
               ),
               SizedBox(height:10.0,),
               TextFormField(
+                controller: password_Controller,
                 obscureText: _obscureText,
                 decoration:  InputDecoration(
                   suffixIcon: GestureDetector(onTap: (){
@@ -119,6 +168,7 @@ class _SignuppageState extends State<Signuppage> {
               ),
               SizedBox(height:10.0,),
               TextFormField(
+                controller: confirm_password_Controller,
                 obscureText: _obscureText,
                 decoration:  InputDecoration(
                   suffixIcon: GestureDetector(onTap: (){
@@ -143,6 +193,7 @@ class _SignuppageState extends State<Signuppage> {
               ),
               SizedBox(height:10.0,),
               TextFormField(
+                controller: age_Controller,
                 obscureText: true,
                 decoration:  InputDecoration(
                   hintText: "Enter Age",
@@ -171,25 +222,25 @@ class _SignuppageState extends State<Signuppage> {
               Container(
                   child:Column(
                     children: [
-                      Row(
-                        children: [
-                          Radio(
-                            value: 1,
-                            groupValue: _value,
-                            onChanged: (value){},
-                          ),
-                          SizedBox(width: 10,),
-                          Text("Male"),
-                          Radio(
-                            value: 2,
-                            groupValue: _value,
-                            onChanged: (value){},
-                          ),
-                          SizedBox(width: 10,),
-                          Text("Female"),
-                        ],
-                      ),
-                    ],)),
+                  Row(
+                  children: <Widget>[
+                  Radio<String>(
+                    value: "M",
+                    groupValue: _genderRadioBtnVal,
+                    onChanged: _handleGenderChange,
+                  ),
+                Text("Male"),
+                Radio<String>(
+                  value: "F",
+                  groupValue: _genderRadioBtnVal,
+                  onChanged: _handleGenderChange,
+                ),
+                Text("Female"),
+                ],
+              )
+            ]
+        )
+      ),
 
              // SizedBox(height:10.0,),
               ElevatedButton(
@@ -203,15 +254,7 @@ class _SignuppageState extends State<Signuppage> {
                 ),
 
                 child:  Text("Signup"),
-                onPressed: (){
-
-                  Navigator.of(context).push(
-                      MaterialPageRoute(
-                      builder: (context)=>
-                          MainMenuPage(),
-                      ),
-                  );
-                },
+                onPressed: check_signiup,
               ),
               SizedBox(height:10.0,),
               Container(

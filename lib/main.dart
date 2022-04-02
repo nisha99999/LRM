@@ -5,6 +5,7 @@ import 'main_menu.dart';
 import 'splash.dart';
 import 'add_new_report.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       ),
       title: "LRM",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: Signuppage(),
     );
   }
 

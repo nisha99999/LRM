@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lrm/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -143,6 +144,12 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
                           onPressed: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context)=>
+                                    LoginPage(),
+                              ),
+                            );
                           },
                         ),
                       ),

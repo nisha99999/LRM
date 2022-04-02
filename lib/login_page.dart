@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
+import 'package:http/http.dart' as http;
+import 'main_menu.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,6 +13,76 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final username_Controller = TextEditingController();
+  final password_Controller = TextEditingController();
+  
+  void check_signin() async {
+    /*showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          // Retrieve the text that the user has entered by using the
+          // TextEditingController.
+          content: Text('http://localhost/LRM/api/user/checkuser?username=' +
+              username_Controller.text.toString() + '&password=' +
+              password_Controller.text.toString()),
+        );
+      },
+    );*/
+    http.Response response = await http.get(
+        Uri.parse('http://192.168.0.113/LRM/api/user/checkuser?username=' +
+            username_Controller.text.toString() + '&password=' +
+            password_Controller.text.toString()));
+    String data = response.body;
+
+    if (response.statusCode == 200)
+      {
+
+
+        if(data=="false")
+          {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  // Retrieve the text that the user has entered by using the
+                  // TextEditingController.
+                  content: Text("User name or password incorrect")
+                );
+              },
+            );
+          }
+        if(data=="true") {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context)=>
+                  MainMenuPage(),
+            ),
+          );
+        }
+
+  }
+    else
+      {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              // Retrieve the text that the user has entered by using the
+              // TextEditingController.
+                content: Text("unable to connect to server")
+            );
+          },
+        );
+      }
+  }
+
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    username_Controller.dispose();
+    super.dispose();
+  }
   bool _obscureText=true;
   @override
   Widget build(BuildContext context) {
@@ -77,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
           //username field
           TextFormField(
+            controller: username_Controller,
           decoration: const InputDecoration(
           hintText: "Enter UserName",
             labelText: "UserName",
@@ -87,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               //password field
               TextFormField(
+                controller: password_Controller,
                 obscureText: _obscureText,
                 decoration:  InputDecoration(
                   suffixIcon: GestureDetector(onTap: (){
@@ -126,15 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                 ),
                 child:  Text("Login"),
-                onPressed: (){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context)=>
-                          Signuppage(),
-                    ),
-                  );
-
-                },
+                onPressed:check_signin,
               ),
               SizedBox(
                 height: 30,
