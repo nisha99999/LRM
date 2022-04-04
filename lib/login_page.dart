@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'package:http/http.dart' as http;
 import 'main_menu.dart';
+import 'globals.dart' as global;
 
 
 class LoginPage extends StatefulWidget {
@@ -16,7 +17,19 @@ class _LoginPageState extends State<LoginPage> {
 
   final username_Controller = TextEditingController();
   final password_Controller = TextEditingController();
-  
+
+  void sign_in(){
+    global.username = "";
+    global.islogin = false;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context)=>
+            Signuppage(),
+      ),
+    );
+  }
+
+
   void check_signin() async {
     /*showDialog(
       context: context,
@@ -46,14 +59,25 @@ class _LoginPageState extends State<LoginPage> {
               context: context,
               builder: (context) {
                 return AlertDialog(
+                    content: Text("User name or password incorrect"),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   // Retrieve the text that the user has entered by using the
                   // TextEditingController.
-                  content: Text("User name or password incorrect")
+
                 );
               },
             );
           }
         if(data=="true") {
+          global.islogin = true;
+          global.username = username_Controller.text.toString();
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context)=>
@@ -221,12 +245,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 alignment: Alignment.center,
-                child:  Text(
-                  "Signup",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: FlatButton(
+                  child:Text("SignUp",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                  onPressed: (){
+                    sign_in();
+                  },
                 ),
               ),
       ],),

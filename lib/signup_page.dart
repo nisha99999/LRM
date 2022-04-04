@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'login_page.dart';
 import 'package:flutter/material.dart';
 import 'main_menu.dart';
 import 'package:http/http.dart' as http;
@@ -25,34 +25,119 @@ class _SignuppageState extends State<Signuppage> {
       _genderRadioBtnVal = value;
     });
   }
+  bool validateEmail(String? value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value))
+      return true;
+    else
+      return false;
+  }
+
+
   void check_signiup() async {
-    http.Response response = await http.post(
-      Uri.parse('http://192.168.0.113/LRM/api/user/insertuser'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "user_name": username_Controller.text,
-        "gender": _genderRadioBtnVal.toString(),
-        "email": email_Controller.text,
-        "age": age_Controller.text,
-        "user_passwd": password_Controller.text
-      }),
-    );
-    if (response.statusCode == 200) {
+    String? email = email_Controller.text.toString();
+    if (username_Controller.text == "" || password_Controller.text == "" ||
+        confirm_password_Controller.text == "" || age_Controller.text == "") {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
+            content: Text("Please fill out all the fields"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
             // Retrieve the text that the user has entered by using the
             // TextEditingController.
-            content: Text("ok"),
           );
         },
       );
     }
-  }
+    else if (password_Controller.text != confirm_password_Controller.text){
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("password doesn't match"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+            // Retrieve the text that the user has entered by using the
+            // TextEditingController.
+          );
+        },
+      );
 
+    }
+    else if (validateEmail(email)) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("Enter a Valid Email"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+            // Retrieve the text that the user has entered by using the
+            // TextEditingController.
+          );
+        },
+      );
+    }
+    else {
+      http.Response response = await http.post(
+        Uri.parse('http://192.168.0.113/LRM/api/user/insertuser'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "user_name": username_Controller.text,
+          "gender": _genderRadioBtnVal.toString(),
+          "email": email_Controller.text,
+          "age": age_Controller.text,
+          "user_passwd": password_Controller.text
+        }),
+      );
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text("Registered Successfully"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+              // Retrieve the text that the user has entered by using the
+              // TextEditingController.
+            );
+          },
+        );
+      }
+    }
+  }
 
 
   bool _obscureText=true;
@@ -99,7 +184,7 @@ class _SignuppageState extends State<Signuppage> {
             borderRadius: BorderRadius.circular(30),
             color: Colors.white,
           ),
-          height: 550,
+          height: 570,
           width: 350,
         ),
       ),
@@ -107,7 +192,7 @@ class _SignuppageState extends State<Signuppage> {
       Positioned(
         right: 20,
         left: 20,
-        top: 90,
+        top: 70,
         child: Container(
           child: Column(
             children: [
@@ -194,6 +279,7 @@ class _SignuppageState extends State<Signuppage> {
               SizedBox(height:10.0,),
               TextFormField(
                 controller: age_Controller,
+                keyboardType: TextInputType.number,
                 obscureText: true,
                 decoration:  InputDecoration(
                   hintText: "Enter Age",
@@ -268,16 +354,29 @@ class _SignuppageState extends State<Signuppage> {
                 ),
               ),
 
-              Container(
-                alignment: Alignment.center,
-                child:  Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              Positioned(
+
+                child:Container(
+                  alignment: Alignment.center,
+                  child: FlatButton(
+                    child:Text("Login",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context)=>
+                              LoginPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
+
 
             ],
           ),

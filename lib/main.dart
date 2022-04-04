@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       ),
       title: "LRM",
       debugShowCheckedModeBanner: false,
-      home: Signuppage(),
+      home: LoginPage(),
     );
   }
 

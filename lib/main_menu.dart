@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'add_new_report.dart';
+import 'globals.dart' as global;
+import 'login_page.dart';
+
 
 class MainMenuPage extends StatefulWidget {
   const MainMenuPage({Key? key}) : super(key: key);
@@ -10,6 +13,18 @@ class MainMenuPage extends StatefulWidget {
 }
 
 class _MainMenuPageState extends State<MainMenuPage> {
+
+  void sign_out(){
+    global.username = "";
+    global.islogin = false;
+    Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context)=>
+              LoginPage(),
+        ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -298,13 +313,16 @@ class _MainMenuPageState extends State<MainMenuPage> {
                   left: 150,
                   child:  Container(
                     alignment: Alignment.center,
-                    child:  Text(
-                      "SignOut",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child:  FlatButton(
+                      child:Text("SignOut",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      onPressed: (){
+                        sign_out();
+                      },
                     ),
                   ),
                 ),
@@ -314,7 +332,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
                   child:  Container(
                     alignment: Alignment.center,
                     child:  Text(
-                      "Username",
+                      global.username,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 18,
