@@ -4,6 +4,7 @@ import 'signup_page.dart';
 import 'main_menu.dart';
 import 'splash.dart';
 import 'add_new_report.dart';
+import 'Add_manual_report.dart';
 
 
 void main() {
@@ -29,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       ),
       title: "LRM",
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 
