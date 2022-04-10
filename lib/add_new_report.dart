@@ -48,6 +48,10 @@ class _HomePageState extends State<HomePage> {
     );*/
   }
   void get_test() async{
+    http.Response response = await http.get(
+        Uri.parse('http://192.168.0.113/LRM/api/user/gettestnames?labname='+valueChoosen1));
+    String data=response.body;
+    list1= List<String>.from(json.decode(data));
 
 
   }
@@ -212,7 +216,7 @@ return(
 
   );
 }
-  Widget showatest ()
+  Widget showtest ()
   {
     return(
         Positioned(
@@ -293,6 +297,8 @@ return(
       show_main_dropdown(),
       if(labselect == true)
         showalllabs(),
+      if(labselect == true)
+        showtest(),
                     add_manually(),
                     add_by_camera(),
 
